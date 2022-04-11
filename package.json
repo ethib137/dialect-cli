@@ -6,7 +6,7 @@
 	"author": "Evan Thibodeau <evan.thibodeau@liferay.com>",
 	"license": "MIT",
 	"type": "module",
-	"private": true,
+	"private": false,
 	"bin": {
 		"dialect": "./index.js"
 	},

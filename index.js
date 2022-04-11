@@ -6,7 +6,7 @@ import verifyTokens from './verify-tokens.js';
 const program = new Command();
 
 program
-	.name('dialect')
+	.name('dialect-cli')
 	.description('CLI to work with Dialect Dev')
 	.version('1.0.0');
 
