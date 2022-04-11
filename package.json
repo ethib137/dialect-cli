@@ -1,0 +1,23 @@
+{
+	"name": "dialect-cli",
+	"version": "1.0.0",
+	"description": "Tools for Dialect Dev",
+	"main": "index.js",
+	"author": "Evan Thibodeau <evan.thibodeau@liferay.com>",
+	"license": "MIT",
+	"type": "module",
+	"private": true,
+	"bin": {
+		"dialect": "./index.js"
+	},
+	"dependencies": {
+		"chalk": "^5.0.1",
+		"commander": "^9.1.0",
+		"lodash.camelcase": "^4.3.0",
+		"prettier": "^2.6.2"
+	},
+	"scripts": {
+		"format": "prettier --write .",
+		"format:check": "prettier --list-different ."
+	}
+}
