@@ -1,6 +1,6 @@
 {
 	"name": "dialect-cli",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Tools for Dialect Dev",
 	"main": "index.js",
 	"author": "Evan Thibodeau <evan.thibodeau@liferay.com>",
@@ -8,12 +8,14 @@
 	"type": "module",
 	"private": false,
 	"bin": {
-		"dialect": "./index.js"
+		"dialect-cli": "./index.js"
 	},
 	"dependencies": {
 		"chalk": "^5.0.1",
+		"cli-table": "^0.3.11",
 		"commander": "^9.1.0",
 		"lodash.camelcase": "^4.3.0",
+		"natural-compare-lite": "^1.4.0",
 		"prettier": "^2.6.2"
 	},
 	"scripts": {

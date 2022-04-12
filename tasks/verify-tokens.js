@@ -1,24 +1,10 @@
-import fs from 'fs';
 import camelCase from 'lodash.camelcase';
-import chalk from 'chalk';
+import {chalkLog, readTokens} from './util.js';
 
 const IGNORE_SETS = ['body', 'containerMaxWidths', 'displays'];
 
-function chalkLog(text, error) {
-	const color = error ? 'red' : 'green';
-
-	console.log(chalk[color](text));
-}
-
 function verifyTokens(path) {
-	fs.readFile(path, 'utf8', (err, data) => {
-		if (err) {
-			console.error(err);
-			return;
-		}
-
-		data = JSON.parse(data);
-
+	readTokens(path, (data) => {
 		const {frontendTokenCategories} = data;
 
 		frontendTokenCategories.forEach((frontendTokenCategory) => {
