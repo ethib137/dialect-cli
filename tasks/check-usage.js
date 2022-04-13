@@ -39,14 +39,13 @@ function checkUsage(tokenPath, category) {
 
 	const usedTokens = [tokens];
 
-	const dialectPath = path.join(
+	const cssPath = path.join(
 		path.dirname(tokenPath),
 		'..',
-		'css',
-		'dialect'
+		'css'
 	);
 
-	forEachFile(dialectPath, (data) => {
+	forEachFile(cssPath, (data) => {
 		tokens.forEach((token) => {
 			if (data.includes(token)) {
 				usedTokens.push(token);

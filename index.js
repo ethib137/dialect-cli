@@ -13,7 +13,7 @@ const program = new Command();
 program
 	.name('dialect-cli')
 	.description('CLI to work with Dialect Dev')
-	.version('1.0.3');
+	.version('1.0.4');
 
 program
 	.command('verify-tokens')
