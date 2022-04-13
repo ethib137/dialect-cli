@@ -1,6 +1,9 @@
+import chalk from 'chalk';
 import {chalkLog, forEachToken} from './util.js';
 
 function checkDuplicates(path, category) {
+	console.log(chalk.blue('Check Duplicates:'));
+
 	const dict = {};
 
 	forEachToken(path, category, (frontendToken) => {
@@ -24,6 +27,8 @@ function checkDuplicates(path, category) {
 	if (duplicates === 0) {
 		chalkLog('There are no duplicate tokens.', false);
 	}
+
+	console.log();
 }
 
 export default checkDuplicates;

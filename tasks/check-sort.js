@@ -14,8 +14,10 @@ function isSorted(arr1, arr2) {
 	return sorted;
 }
 
-function checkSort(path, category) {
-	forEachTokenSet(path, category, (frontendTokenSet, categoryName) => {
+async function checkSort(path, category) {
+	console.log(chalk.blue('Check Sort:'));
+
+	await forEachTokenSet(path, category, (frontendTokenSet, categoryName) => {
 		const setTokens = [];
 
 		frontendTokenSet.frontendTokens.forEach((frontendToken) => {
@@ -29,7 +31,7 @@ function checkSort(path, category) {
 		const setTokensSorted = naturalSort([...setTokens]);
 
 		if (!isSorted(setTokens, setTokensSorted)) {
-			var table = new Table();
+			const table = new Table();
 
 			table.push([chalk.blue('Unsorted'), chalk.blue('Sorted')]);
 
@@ -42,9 +44,7 @@ function checkSort(path, category) {
 				]);
 			});
 
-			console.log(
-				chalk.blue(`${categoryName}: ${frontendTokenSet.name}`)
-			);
+			console.log(`${categoryName}: ${frontendTokenSet.name}`);
 			console.log(table.toString());
 			console.log();
 		}

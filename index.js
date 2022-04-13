@@ -1,8 +1,10 @@
 #! /usr/bin/env node
 
 import {Command} from 'commander';
+import checkAll from './tasks/check-all.js';
 import checkDuplicates from './tasks/check-duplicates.js';
 import checkSort from './tasks/check-sort.js';
+import checkUsage from './tasks/check-usage.js';
 import listTokens from './tasks/list-tokens.js';
 import verifyTokens from './tasks/verify-tokens.js';
 
@@ -11,7 +13,7 @@ const program = new Command();
 program
 	.name('dialect-cli')
 	.description('CLI to work with Dialect Dev')
-	.version('1.0.2');
+	.version('1.0.3');
 
 program
 	.command('verify-tokens')
@@ -62,6 +64,18 @@ program
 	});
 
 program
+	.command('check-usage')
+	.description('Check if all token css variables are used.')
+	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.option(
+		'-c, --category <string>',
+		'Only display tokens from a specific frontentTokenCategory'
+	)
+	.action((path, options) => {
+		checkUsage(path, options.category);
+	});
+
+program
 	.command('check-all')
 	.description('Check all tokens tasks.')
 	.argument('<path>', 'Path to frontend-token-definition.json file.')
@@ -70,23 +84,7 @@ program
 		'Only display tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		console.log('Verify Tokens');
-
-		verifyTokens(path, options.category);
-
-		console.log();
-
-		console.log('Check Sort');
-
-		checkSort(path, options.category);
-
-		console.log();
-
-		console.log('Check Duplicates');
-
-		checkDuplicates(path, options.category);
-
-		console.log();
+		checkAll(path, options.category);
 	});
 
 program.parse();

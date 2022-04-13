@@ -1,10 +1,13 @@
+import chalk from 'chalk';
 import camelCase from 'lodash.camelcase';
 import {chalkLog, forEachTokenSet} from './util.js';
 
 const IGNORE_SETS = ['body', 'containerMaxWidths', 'displays'];
 
-function verifyTokens(path, category) {
-	forEachTokenSet(path, category, (frontendTokenSet) => {
+async function verifyTokens(path, category) {
+	console.log(chalk.blue('Verify Tokens:'));
+
+	await forEachTokenSet(path, category, (frontendTokenSet) => {
 		if (!IGNORE_SETS.includes(frontendTokenSet.name)) {
 			frontendTokenSet.frontendTokens.forEach((frontendToken) => {
 				const {label, mappings, name} = frontendToken;
@@ -29,6 +32,8 @@ function verifyTokens(path, category) {
 			});
 		}
 	});
+
+	console.log();
 }
 
 export default verifyTokens;

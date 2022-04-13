@@ -1,4 +1,4 @@
-import fs from 'fs';
+import {readdir, readFile, stat} from 'fs/promises';
 import chalk from 'chalk';
 import naturalCompare from 'natural-compare-lite';
 
@@ -12,27 +12,26 @@ export function chalkError(text, error = true) {
 	return chalk[color](text);
 }
 
-export function readTokens(path, callback) {
-	fs.readFile(path, 'utf8', (err, data) => {
-		if (err) {
-			console.error(err);
-			return;
-		}
+export async function readTokens(path, callback) {
+	try {
+		const data = await readFile(path, 'utf8');
 
 		callback(JSON.parse(data));
-	});
+	} catch (err) {
+		console.log(err);
+	}
 }
 
-export function forEachToken(path, category = '', callback) {
-	forEachTokenSet(path, category, (frontendTokenSet) => {
+export async function forEachToken(path, category = '', callback) {
+	await forEachTokenSet(path, category, (frontendTokenSet) => {
 		frontendTokenSet.frontendTokens.forEach((frontendToken) => {
 			callback(frontendToken);
 		});
 	});
 }
 
-export function forEachTokenSet(path, category = '', callback) {
-	readTokens(path, (data) => {
+export async function forEachTokenSet(path, category = '', callback) {
+	await readTokens(path, (data) => {
 		const {frontendTokenCategories} = data;
 
 		frontendTokenCategories.forEach((frontendTokenCategory) => {

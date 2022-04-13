@@ -1,6 +1,6 @@
 {
 	"name": "dialect-cli",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"description": "Tools for Dialect Dev",
 	"main": "index.js",
 	"author": "Evan Thibodeau <evan.thibodeau@liferay.com>",
