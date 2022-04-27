@@ -2,8 +2,8 @@ import chalk from 'chalk';
 import Table from 'cli-table';
 import {forEachTokenSet, naturalSort} from '../util/util.js';
 import {
-	log,
 	logError,
+	chalkError,
 	logIndent,
 	logNewLine,
 	logSubtitle,
@@ -67,8 +67,8 @@ async function checkSort(path, category) {
 				const sortedToken = setTokensSorted[i];
 
 				table.push([
-					logError(token, token !== sortedToken),
-					logError(sortedToken, token !== sortedToken)
+					chalkError(token, token !== sortedToken),
+					chalkError(sortedToken, token !== sortedToken)
 				]);
 			});
 
@@ -79,7 +79,7 @@ async function checkSort(path, category) {
 	});
 
 	if (sorted) {
-		log('All tokens are sorted.', false);
+		logError('All tokens are sorted.', false);
 	}
 
 	logNewLine();

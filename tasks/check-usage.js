@@ -1,9 +1,13 @@
-import chalk from 'chalk';
 import {readdir, readFile, stat} from 'fs/promises';
 import path from 'path';
 
 import {forEachToken} from '../util/util.js';
-import {log, logError, logTitle} from '../util/chalk-util.js';
+import {
+	logError,
+	logNewLine,
+	logSubtitle,
+	logTitle
+} from '../util/chalk-util.js';
 
 async function forEachFile(curPath, callback) {
 	try {
@@ -56,11 +60,15 @@ function checkUsage(tokenPath, category) {
 		);
 
 		if (unusedTokens.length === 0) {
-			log('There are no unused tokens.', false);
+			logError('There are no unused tokens.', false);
 		} else {
+			logSubtitle('The following tokens are not used in the theme css.');
+
 			unusedTokens.forEach((token) => {
 				logError(token);
 			});
+
+			logNewLine();
 		}
 	});
 }

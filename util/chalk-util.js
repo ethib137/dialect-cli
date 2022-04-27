@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 
-export function log(text, error) {
-	console.log(logError(text, error));
+export function logError(text, error) {
+	console.log(chalkError(text, error));
 }
 
-export function logError(text, error = true) {
+export function chalkError(text, error = true) {
 	const color = error ? 'red' : 'green';
 
 	return chalk[color](text);

@@ -1,7 +1,7 @@
 import chalk from 'chalk';
 import camelCase from 'lodash.camelcase';
 import {forEachTokenSet} from '../util/util.js';
-import {log, logNewLine, logTitle} from '../util/chalk-util.js';
+import {logError, logNewLine, logTitle} from '../util/chalk-util.js';
 
 const IGNORE_SETS = ['body', 'containerMaxWidths', 'displays'];
 
@@ -25,9 +25,9 @@ async function verifyTokens(path, category) {
 				if (mappingValueNotEqualToLabel || mappingValueNotEqualToName) {
 					isConsistent = false;
 
-					log('label: ' + label, mappingValueNotEqualToLabel);
-					log('name: ' + name, mappingValueNotEqualToName);
-					log(
+					logError('label: ' + label, mappingValueNotEqualToLabel);
+					logError('name: ' + name, mappingValueNotEqualToName);
+					logError(
 						`cssVariable: ${mappingValue} (${camelCase(
 							mappingValue
 						)})`
@@ -40,7 +40,7 @@ async function verifyTokens(path, category) {
 	});
 
 	if (isConsistent) {
-		log(
+		logError(
 			'All tokens have a consistent name, label, and cssVariable.',
 			false
 		);
