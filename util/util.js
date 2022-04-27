@@ -1,16 +1,5 @@
-import {readdir, readFile, stat} from 'fs/promises';
-import chalk from 'chalk';
+import {readFile} from 'fs/promises';
 import naturalCompare from 'natural-compare-lite';
-
-export function chalkLog(text, error) {
-	console.log(chalkError(text, error));
-}
-
-export function chalkError(text, error = true) {
-	const color = error ? 'red' : 'green';
-
-	return chalk[color](text);
-}
 
 export async function readTokens(path, callback) {
 	try {

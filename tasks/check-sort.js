@@ -1,6 +1,14 @@
 import chalk from 'chalk';
 import Table from 'cli-table';
-import {chalkError, forEachTokenSet, naturalSort} from './util.js';
+import {forEachTokenSet, naturalSort} from '../util/util.js';
+import {
+	log,
+	logError,
+	logIndent,
+	logNewLine,
+	logSubtitle,
+	logTitle
+} from '../util/chalk-util.js';
 
 const IGNORE_SETS = [
 	'brandPrimary',
@@ -29,7 +37,9 @@ function isSorted(arr1, arr2) {
 }
 
 async function checkSort(path, category) {
-	console.log(chalk.blue('Check Sort:'));
+	logTitle('Check Sort:');
+
+	let sorted = true;
 
 	await forEachTokenSet(path, category, (frontendTokenSet, categoryName) => {
 		const setTokens = [];
@@ -47,24 +57,32 @@ async function checkSort(path, category) {
 		const setTokensSorted = naturalSort([...setTokens]);
 
 		if (!isSorted(setTokens, setTokensSorted)) {
+			sorted = false;
+
 			const table = new Table();
 
-			table.push([chalk.blue('Unsorted'), chalk.blue('Sorted')]);
+			table.push([chalk.grey('Unsorted'), chalk.grey('Sorted')]);
 
 			setTokens.forEach((token, i) => {
 				const sortedToken = setTokensSorted[i];
 
 				table.push([
-					chalkError(token, token !== sortedToken),
-					chalkError(sortedToken, token !== sortedToken)
+					logError(token, token !== sortedToken),
+					logError(sortedToken, token !== sortedToken)
 				]);
 			});
 
-			console.log(`${categoryName}: ${frontendTokenSet.name}`);
+			logSubtitle(`${categoryName}: ${frontendTokenSet.name}`);
 			console.log(table.toString());
-			console.log();
+			logNewLine();
 		}
 	});
+
+	if (sorted) {
+		log('All tokens are sorted.', false);
+	}
+
+	logNewLine();
 }
 
 export default checkSort;

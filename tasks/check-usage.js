@@ -2,7 +2,8 @@ import chalk from 'chalk';
 import {readdir, readFile, stat} from 'fs/promises';
 import path from 'path';
 
-import {chalkLog, forEachToken} from './util.js';
+import {forEachToken} from '../util/util.js';
+import {log, logError, logTitle} from '../util/chalk-util.js';
 
 async function forEachFile(curPath, callback) {
 	try {
@@ -27,6 +28,8 @@ async function forEachFile(curPath, callback) {
 }
 
 function checkUsage(tokenPath, category) {
+	logTitle('Check Usage:');
+
 	const tokens = [];
 
 	forEachToken(tokenPath, category, (frontendToken) => {
@@ -39,11 +42,7 @@ function checkUsage(tokenPath, category) {
 
 	const usedTokens = [tokens];
 
-	const cssPath = path.join(
-		path.dirname(tokenPath),
-		'..',
-		'css'
-	);
+	const cssPath = path.join(path.dirname(tokenPath), '..', 'css');
 
 	forEachFile(cssPath, (data) => {
 		tokens.forEach((token) => {
@@ -57,12 +56,10 @@ function checkUsage(tokenPath, category) {
 		);
 
 		if (unusedTokens.length === 0) {
-			chalkLog('There are no unused tokens.', false);
+			log('There are no unused tokens.', false);
 		} else {
-			console.log(chalk.blue('Unused Tokens:'));
-
 			unusedTokens.forEach((token) => {
-				chalkLog(token);
+				logError(token);
 			});
 		}
 	});

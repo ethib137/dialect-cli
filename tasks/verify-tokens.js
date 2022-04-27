@@ -1,11 +1,14 @@
 import chalk from 'chalk';
 import camelCase from 'lodash.camelcase';
-import {chalkLog, forEachTokenSet} from './util.js';
+import {forEachTokenSet} from '../util/util.js';
+import {log, logNewLine, logTitle} from '../util/chalk-util.js';
 
 const IGNORE_SETS = ['body', 'containerMaxWidths', 'displays'];
 
 async function verifyTokens(path, category) {
-	console.log(chalk.blue('Verify Tokens:'));
+	logTitle('Verify Tokens:');
+
+	let isConsistent = true;
 
 	await forEachTokenSet(path, category, (frontendTokenSet) => {
 		if (!IGNORE_SETS.includes(frontendTokenSet.name)) {
@@ -20,20 +23,30 @@ async function verifyTokens(path, category) {
 				const mappingValueNotEqualToLabel = mappingValue !== label;
 
 				if (mappingValueNotEqualToLabel || mappingValueNotEqualToName) {
-					chalkLog('label: ' + label, mappingValueNotEqualToLabel);
-					chalkLog('name: ' + name, mappingValueNotEqualToName);
-					chalkLog(
+					isConsistent = false;
+
+					log('label: ' + label, mappingValueNotEqualToLabel);
+					log('name: ' + name, mappingValueNotEqualToName);
+					log(
 						`cssVariable: ${mappingValue} (${camelCase(
 							mappingValue
 						)})`
 					);
-					console.log();
+
+					logNewLine();
 				}
 			});
 		}
 	});
 
-	console.log();
+	if (isConsistent) {
+		log(
+			'All tokens have a consistent name, label, and cssVariable.',
+			false
+		);
+	}
+
+	logNewLine();
 }
 
 export default verifyTokens;

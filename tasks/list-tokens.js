@@ -1,4 +1,5 @@
-import {readTokens} from './util.js';
+import {logIndent, logSubtitle} from '../util/chalk-util.js';
+import {readTokens} from '../util/util.js';
 
 function listTokens(path, category = '') {
 	readTokens(path, (data) => {
@@ -9,11 +10,11 @@ function listTokens(path, category = '') {
 				category.length === 0 ||
 				category === frontendTokenCategory.name
 			) {
-				console.log(frontendTokenCategory.name);
+				logSubtitle(frontendTokenCategory.name);
 
 				frontendTokenCategory.frontendTokenSets.forEach(
 					(frontendTokenSet) => {
-						console.log(`  ${frontendTokenSet.name}`);
+						logIndent(`${frontendTokenSet.name}`, 1);
 
 						frontendTokenSet.frontendTokens.forEach(
 							(frontendToken) => {
@@ -21,7 +22,7 @@ function listTokens(path, category = '') {
 
 								const mappingValue = mappings[0].value;
 
-								console.log(`    --${mappingValue}`);
+								logIndent(`--${mappingValue}`, 2);
 							}
 						);
 					}

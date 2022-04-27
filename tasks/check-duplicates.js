@@ -1,8 +1,9 @@
 import chalk from 'chalk';
-import {chalkLog, forEachToken} from './util.js';
+import {forEachToken} from '../util/util.js';
+import {log, logTitle, logNewLine} from '../util/chalk-util.js';
 
 function checkDuplicates(path, category) {
-	console.log(chalk.blue('Check Duplicates:'));
+	logTitle('Check Duplicates:');
 
 	const dict = {};
 
@@ -18,17 +19,17 @@ function checkDuplicates(path, category) {
 
 	Object.keys(dict).forEach((key) => {
 		if (dict[key] > 1) {
-			chalkLog(`${key} is included ${dict[key]} times.`);
+			log(`${key} is included ${dict[key]} times.`);
 
 			duplicates++;
 		}
 	});
 
 	if (duplicates === 0) {
-		chalkLog('There are no duplicate tokens.', false);
+		log('There are no duplicate tokens.', false);
 	}
 
-	console.log();
+	logNewLine();
 }
 
 export default checkDuplicates;
