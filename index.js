@@ -6,6 +6,7 @@ import checkDuplicates from './tasks/check-duplicates.js';
 import checkSort from './tasks/check-sort.js';
 import checkUsage from './tasks/check-usage.js';
 import listTokens from './tasks/list-tokens.js';
+import {getTokenPath} from './util/util.js';
 import verifyTokens from './tasks/verify-tokens.js';
 
 const program = new Command();
@@ -18,73 +19,73 @@ program
 program
 	.command('verify-tokens')
 	.description('Verify frontend token definitions.')
-	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.argument('[path]', 'Path to frontend-token-definition.json file.')
 	.option(
 		'-c, --category <string>',
 		'Only verify tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		verifyTokens(path, options.category);
+		verifyTokens(getTokenPath(path), options.category);
 	});
 
 program
 	.command('list-tokens')
 	.description('List frontend token css variables.')
-	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.argument('[path]', 'Path to frontend-token-definition.json file.')
 	.option(
 		'-c, --category <string>',
 		'Only display tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		listTokens(path, options.category);
+		listTokens(getTokenPath(path), options.category);
 	});
 
 program
 	.command('check-sort')
 	.description('Check the sorting of frontend token css variables.')
-	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.argument('[path]', 'Path to frontend-token-definition.json file.')
 	.option(
 		'-c, --category <string>',
 		'Only display tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		checkSort(path, options.category);
+		checkSort(getTokenPath(path), options.category);
 	});
 
 program
 	.command('check-duplicates')
 	.description('Check if any token css variables are duplicated.')
-	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.argument('[path]', 'Path to frontend-token-definition.json file.')
 	.option(
 		'-c, --category <string>',
 		'Only display tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		checkDuplicates(path, options.category);
+		checkDuplicates(getTokenPath(path), options.category);
 	});
 
 program
 	.command('check-usage')
 	.description('Check if all token css variables are used.')
-	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.argument('[path]', 'Path to frontend-token-definition.json file.')
 	.option(
 		'-c, --category <string>',
 		'Only display tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		checkUsage(path, options.category);
+		checkUsage(getTokenPath(path), options.category);
 	});
 
 program
 	.command('check-all')
 	.description('Check all tokens tasks.')
-	.argument('<path>', 'Path to frontend-token-definition.json file.')
+	.argument('[path]', 'Path to frontend-token-definition.json file.')
 	.option(
 		'-c, --category <string>',
 		'Only display tokens from a specific frontentTokenCategory'
 	)
 	.action((path, options) => {
-		checkAll(path, options.category);
+		checkAll(getTokenPath(path), options.category);
 	});
 
 program.parse();

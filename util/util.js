@@ -1,5 +1,13 @@
 import {readFile} from 'fs/promises';
 import naturalCompare from 'natural-compare-lite';
+import path from 'path';
+
+export function getTokenPath(tokenPath) {
+	return (
+		tokenPath ||
+		path.join('src', 'WEB-INF', 'frontend-token-definition.json')
+	);
+}
 
 export async function readTokens(path, callback) {
 	try {
