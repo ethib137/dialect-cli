@@ -2,6 +2,20 @@ import chalk from 'chalk';
 import Table from 'cli-table';
 import {chalkError, forEachTokenSet, naturalSort} from './util.js';
 
+const IGNORE_SETS = [
+	'brandPrimary',
+	'brandSecondary',
+	'neutral',
+	'actionPrimary',
+	'actionSecondary',
+	'actionNeutral',
+	'states',
+	'fontWeight',
+	'paragraphs',
+	'borderRadius',
+	'containerMaxWidths'
+];
+
 function isSorted(arr1, arr2) {
 	let sorted = true;
 
@@ -20,13 +34,15 @@ async function checkSort(path, category) {
 	await forEachTokenSet(path, category, (frontendTokenSet, categoryName) => {
 		const setTokens = [];
 
-		frontendTokenSet.frontendTokens.forEach((frontendToken) => {
-			const {mappings} = frontendToken;
+		if (!IGNORE_SETS.includes(frontendTokenSet.name)) {
+			frontendTokenSet.frontendTokens.forEach((frontendToken) => {
+				const {mappings} = frontendToken;
 
-			const mappingValue = mappings[0].value;
+				const mappingValue = mappings[0].value;
 
-			setTokens.push(mappingValue);
-		});
+				setTokens.push(mappingValue);
+			});
+		}
 
 		const setTokensSorted = naturalSort([...setTokens]);
 
