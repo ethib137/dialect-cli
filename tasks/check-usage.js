@@ -31,46 +31,56 @@ async function forEachFile(curPath, callback) {
 	}
 }
 
-function checkUsage(tokenPath, category) {
+async function checkUsage(tokenPath, category) {
 	logTitle('Check Usage:');
 
+	const defaultValues = [];
 	const tokens = [];
+	const usedTokens = [];
 
-	forEachToken(tokenPath, category, (frontendToken) => {
-		const {mappings} = frontendToken;
+	await forEachToken(tokenPath, category, (frontendToken) => {
+		const {defaultValue, mappings} = frontendToken;
+
+		const cssVariable = defaultValue.match(/var\((.*)\)/);
+
+		if (cssVariable && cssVariable[1]) {
+			defaultValues.push(cssVariable[1]);
+		}
 
 		const mappingValue = mappings[0].value;
 
 		tokens.push(`--${mappingValue}`);
 	});
 
-	const usedTokens = [tokens];
-
 	const cssPath = path.join(path.dirname(tokenPath), '..', 'css');
 
-	forEachFile(cssPath, (data) => {
+	await forEachFile(cssPath, (data) => {
 		tokens.forEach((token) => {
 			if (data.includes(token)) {
 				usedTokens.push(token);
 			}
 		});
-	}).then(() => {
-		const unusedTokens = tokens.filter(
-			(token) => !usedTokens.includes(token)
+	});
+
+	let unusedTokens = tokens.filter((token) => !usedTokens.includes(token));
+
+	unusedTokens = unusedTokens.filter(
+		(unusedToken) => !defaultValues.includes(unusedToken)
+	);
+
+	if (unusedTokens.length === 0) {
+		logError('There are no unused tokens.', false);
+	} else {
+		logSubtitle(
+			'The following tokens are not used in the theme css or as default values for other tokens.'
 		);
 
-		if (unusedTokens.length === 0) {
-			logError('There are no unused tokens.', false);
-		} else {
-			logSubtitle('The following tokens are not used in the theme css.');
+		unusedTokens.forEach((token) => {
+			logError(token);
+		});
 
-			unusedTokens.forEach((token) => {
-				logError(token);
-			});
-
-			logNewLine();
-		}
-	});
+		logNewLine();
+	}
 }
 
 export default checkUsage;
